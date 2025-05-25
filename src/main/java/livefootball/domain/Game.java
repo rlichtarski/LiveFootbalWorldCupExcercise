@@ -1,6 +1,6 @@
 package livefootball.domain;
 
-class Game {
+public class Game {
     private final String homeTeam;
     private final String awayTeam;
     private int homeScore;
