@@ -17,6 +17,26 @@ public class LiveFootballService {
         return gamesSummary;
     }
 
+    String getLiveGamesInfo() {
+        return gamesLiveScoreboard.stream().map(
+                game ->
+                        game.getHomeTeam() + "-"
+                        + game.getAwayTeam() + ": "
+                        + game.getHomeScore() + "-"
+                        + game.getAwayScore()
+        ).toList().toString();
+    }
+
+    String getSummaryGamesInfo() {
+        return gamesSummary.stream().map(
+                game ->
+                        game.getHomeTeam() + "-"
+                        + game.getAwayTeam() + ": "
+                        + game.getHomeScore() + "-"
+                        + game.getAwayScore()
+        ).toList().toString();
+    }
+
     Game startGame(final String homeTeam, final String awayTeam) {
         final Game game = new Game(homeTeam, awayTeam);
         gamesLiveScoreboard.add(game);
@@ -25,5 +45,10 @@ public class LiveFootballService {
 
     void updateGameScore(final Game game, final int homeScore, final int awayScore) {
         game.setScore(homeScore, awayScore);
+    }
+
+    void finishGame(final Game game) {
+        gamesLiveScoreboard.remove(game);
+        gamesSummary.add(game);
     }
 }
