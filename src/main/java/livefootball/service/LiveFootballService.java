@@ -38,9 +38,18 @@ public class LiveFootballService {
     }
 
     Game startGame(final String homeTeam, final String awayTeam) {
+        validateGameBeforeStart(homeTeam, awayTeam);
         final Game game = new Game(homeTeam, awayTeam);
         gamesLiveScoreboard.add(game);
         return game;
+    }
+
+    private void validateGameBeforeStart(final String homeTeam, final String awayTeam) {
+        if (gamesLiveScoreboard.stream()
+                .anyMatch(game -> game.getHomeTeam().equals(homeTeam) || game.getAwayTeam().equals(awayTeam))
+        ) {
+            throw new IllegalArgumentException("This game is already ongoing");
+        }
     }
 
     void updateGameScore(final Game game, final int homeScore, final int awayScore) {

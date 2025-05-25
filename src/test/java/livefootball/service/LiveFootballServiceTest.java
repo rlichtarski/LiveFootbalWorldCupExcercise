@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LiveFootballServiceTest {
@@ -53,6 +56,23 @@ class LiveFootballServiceTest {
         assertEquals(0, game.getOverallScore());
         assertEquals(1, liveFootballService.getGamesLiveScoreboard().size());
         assertTrue(liveFootballService.getGamesLiveScoreboard().contains(game));
+    }
+
+    @Test
+    public void should_throw_exception_when_starting_a_game_which_is_already_ongoing() {
+        // given
+        final LiveFootballService liveFootballService = new LiveFootballService();
+        final String homeTeam = "Mexico";
+        final String awayTeam = "Canada";
+        final Game game = liveFootballService.startGame(homeTeam, awayTeam);
+
+        // when
+
+        final Throwable throwable = catchThrowable(() -> liveFootballService.startGame(homeTeam, awayTeam));
+
+        // then
+        assertThat(throwable).isInstanceOf(IllegalArgumentException.class);
+        assertThat(throwable.getMessage()).isEqualTo("This game is already ongoing");
     }
 
     @Test
