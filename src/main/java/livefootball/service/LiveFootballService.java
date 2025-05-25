@@ -16,4 +16,10 @@ public class LiveFootballService {
     List<Game> getGamesSummary() {
         return gamesSummary;
     }
+
+    public Game startGame(final String homeTeam, final String awayTeam) {
+        final Game game = new Game(homeTeam, awayTeam);
+        gamesLiveScoreboard.add(game);
+        return game;
+    }
 }

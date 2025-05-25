@@ -6,26 +6,26 @@ public class Game {
     private int homeScore;
     private int awayScore;
 
-    Game(final String homeTeam, final String awayTeam, final int homeScore, final int awayScore) {
+    public Game(final String homeTeam, final String awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = 0;
         this.awayScore = 0;
     }
 
-    String getHomeTeam() {
+    public String getHomeTeam() {
         return homeTeam;
     }
 
-    String getAwayTeam() {
+    public String getAwayTeam() {
         return awayTeam;
     }
 
-    int getHomeScore() {
+    public int getHomeScore() {
         return homeScore;
     }
 
-    int getAwayScore() {
+    public int getAwayScore() {
         return awayScore;
     }
 

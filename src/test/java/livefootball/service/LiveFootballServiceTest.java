@@ -6,11 +6,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LiveFootballServiceTest {
 
     @Test
-    public void user_displays_the_games_live_scoreboard_and_there_are_no_live_matches() {
+    public void user_displays_the_games_live_scoreboard_and_there_are_no_live_games() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
 
@@ -22,7 +23,7 @@ class LiveFootballServiceTest {
     }
 
     @Test
-    public void user_displays_the_games_summary_and_there_are_no_past_matches() {
+    public void user_displays_the_games_summary_and_there_are_no_past_games() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
 
@@ -34,12 +35,23 @@ class LiveFootballServiceTest {
     }
 
     @Test
-    public void user_adds_a_game_and_it_adds_this_game_to_games_live_scoreboard_with_0_to_0_score() {
+    public void user_starts_a_game_and_it_adds_this_game_to_games_live_scoreboard_with_0_to_0_score() {
         // given
+        final LiveFootballService liveFootballService = new LiveFootballService();
+        final String homeTeam = "Mexico";
+        final String awayTeam = "Canada";
 
         // when
+        final Game game = liveFootballService.startGame(homeTeam, awayTeam);
 
         // then
+        assertEquals(game.getHomeTeam(), homeTeam);
+        assertEquals(game.getAwayTeam(), awayTeam);
+        assertEquals(game.getHomeScore(), 0);
+        assertEquals(game.getAwayScore(), 0);
+        assertEquals(game.getOverallScore(), 0);
+        assertEquals(liveFootballService.getGamesLiveScoreboard().size(), 1);
+        assertTrue(liveFootballService.getGamesLiveScoreboard().contains(game));
     }
 
 }
