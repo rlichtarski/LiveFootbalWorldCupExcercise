@@ -17,9 +17,13 @@ public class LiveFootballService {
         return gamesSummary;
     }
 
-    public Game startGame(final String homeTeam, final String awayTeam) {
+    Game startGame(final String homeTeam, final String awayTeam) {
         final Game game = new Game(homeTeam, awayTeam);
         gamesLiveScoreboard.add(game);
         return game;
+    }
+
+    void updateGameScore(final Game game, final int homeScore, final int awayScore) {
+        game.setScore(homeScore, awayScore);
     }
 }

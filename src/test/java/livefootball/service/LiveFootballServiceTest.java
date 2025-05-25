@@ -73,4 +73,20 @@ class LiveFootballServiceTest {
         assertTrue(liveFootballService.getGamesLiveScoreboard().contains(secondGame));
     }
 
+    @Test
+    public void user_updates_the_score_for_the_live_game_and_the_score_is_updated() {
+        // given
+        final LiveFootballService liveFootballService = new LiveFootballService();
+        final String firstGameHomeTeam = "Mexico";
+        final String firstGameAwayTeam = "Canada";
+        final Game firstGame = liveFootballService.startGame(firstGameHomeTeam, firstGameAwayTeam);
+
+        // when
+        liveFootballService.updateGameScore(firstGame, 3, 1);
+
+        // then
+        assertEquals(firstGame.getHomeScore(), 3);
+        assertEquals(firstGame.getAwayScore(), 1);
+    }
+
 }
