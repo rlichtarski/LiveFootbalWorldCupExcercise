@@ -20,23 +20,19 @@ public class LiveFootballService {
     }
 
     String getLiveGamesInfo() {
-        return gamesLiveScoreboard.stream().map(
-                game ->
-                        game.homeTeam().value() + "-"
-                        + game.awayTeam().value() + ": "
-                        + game.homeScore() + "-"
-                        + game.awayScore()
-        ).toList().toString();
+        return gamesLiveScoreboard.stream()
+                .map(g -> "%s-%s: %d-%d".formatted(
+                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))
+                .toList()
+                .toString();
     }
 
     String getSummaryGamesInfo() {
-        return gamesSummary.stream().map(
-                game ->
-                        game.homeTeam().value() + "-"
-                        + game.awayTeam().value() + ": "
-                        + game.homeScore() + "-"
-                        + game.awayScore()
-        ).toList().toString();
+        return gamesSummary.stream()
+                .map(g -> "%s-%s: %d-%d".formatted(
+                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))
+                .toList()
+                .toString();
     }
 
     Game startGame(final HomeTeam homeTeam, final AwayTeam awayTeam) {
