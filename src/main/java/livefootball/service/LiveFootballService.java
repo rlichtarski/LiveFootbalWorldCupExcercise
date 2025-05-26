@@ -46,10 +46,14 @@ public class LiveFootballService {
 
     private void validateGameBeforeStart(final String homeTeam, final String awayTeam) {
         if (gamesLiveScoreboard.stream()
-                .anyMatch(game -> game.getHomeTeam().equals(homeTeam) || game.getAwayTeam().equals(awayTeam))
+                .anyMatch(game -> checkIfMatchIsAlreadyOngoing(homeTeam, awayTeam, game))
         ) {
             throw new IllegalArgumentException("This game is already ongoing");
         }
+    }
+
+    private static boolean checkIfMatchIsAlreadyOngoing(final String homeTeam, final String awayTeam, final Game game) {
+        return game.getHomeTeam().equals(homeTeam) || game.getAwayTeam().equals(awayTeam);
     }
 
     void updateGameScore(final Game game, final int homeScore, final int awayScore) {

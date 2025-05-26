@@ -5,17 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class LiveFootballServiceTest {
 
     @Test
-    public void user_displays_the_games_live_scoreboard_and_there_are_no_live_games() {
+    public void should_return_0_live_games_when_user_opens_live_scoreboard_for_the_first_time() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
 
@@ -23,11 +19,11 @@ class LiveFootballServiceTest {
         final List<Game> gamesLiveScoreboard = liveFootballService.getGamesLiveScoreboard();
 
         // then
-        assertEquals(0, gamesLiveScoreboard.size());
+        assertThat(0).isEqualTo(gamesLiveScoreboard.size());
     }
 
     @Test
-    public void user_displays_the_games_summary_and_there_are_no_past_games() {
+    public void should_return_0_summary_games_when_user_opens_live_scoreboard_for_the_first_time() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
 
@@ -35,11 +31,11 @@ class LiveFootballServiceTest {
         final List<Game> gamesSummary = liveFootballService.getGamesSummary();
 
         // then
-        assertEquals(0, gamesSummary.size());
+        assertThat(0).isEqualTo(gamesSummary.size());
     }
 
     @Test
-    public void user_starts_a_game_and_it_adds_this_game_to_games_live_scoreboard_with_0_to_0_score() {
+    public void should_return_live_scoreboard_with_game_and_zero_scores_when_user_starts_game() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
         final String homeTeam = "Mexico";
@@ -49,13 +45,16 @@ class LiveFootballServiceTest {
         final Game game = liveFootballService.startGame(homeTeam, awayTeam);
 
         // then
-        assertEquals(homeTeam, game.getHomeTeam());
-        assertEquals(awayTeam, game.getAwayTeam());
-        assertEquals(0, game.getHomeScore());
-        assertEquals(0, game.getAwayScore());
-        assertEquals(0, game.getOverallScore());
-        assertEquals(1, liveFootballService.getGamesLiveScoreboard().size());
-        assertTrue(liveFootballService.getGamesLiveScoreboard().contains(game));
+        assertAll(
+                () -> assertThat(game.getHomeTeam()).isEqualTo(homeTeam),
+                () -> assertThat(game.getAwayTeam()).isEqualTo(awayTeam),
+                () -> assertThat(game.getHomeScore()).isZero(),
+                () -> assertThat(game.getAwayScore()).isZero(),
+                () -> assertThat(game.getOverallScore()).isZero(),
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .hasSize(1)
+                        .contains(game)
+        );
     }
 
     @Test
@@ -76,7 +75,7 @@ class LiveFootballServiceTest {
     }
 
     @Test
-    public void user_starts_two_games_and_two_games_are_present_in_games_live_scoreboard() {
+    public void should_return_live_scoreboard_with_two_games_when_user_starts_two_games() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
         final String firstGameHomeTeam = "Mexico";
@@ -89,13 +88,23 @@ class LiveFootballServiceTest {
         final Game secondGame = liveFootballService.startGame(secondGameHomeTeam, secondGameAwayTeam);
 
         // then
-        assertEquals(2, liveFootballService.getGamesLiveScoreboard().size());
-        assertTrue(liveFootballService.getGamesLiveScoreboard().contains(firstGame));
-        assertTrue(liveFootballService.getGamesLiveScoreboard().contains(secondGame));
+        assertAll(
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .hasSize(2)
+                        .containsExactlyInAnyOrder(firstGame, secondGame),
+
+                () -> assertThat(firstGame)
+                        .extracting(Game::getHomeTeam, Game::getAwayTeam)
+                        .containsExactly(firstGameHomeTeam, firstGameAwayTeam),
+
+                () -> assertThat(secondGame)
+                        .extracting(Game::getHomeTeam, Game::getAwayTeam)
+                        .containsExactly(secondGameHomeTeam, secondGameAwayTeam)
+        );
     }
 
     @Test
-    public void user_updates_the_score_for_the_live_game_and_the_score_is_updated() {
+    public void should_return_game_with_updated_scores_when_user_updates_live_game_score() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
         final String homeTeam = "Mexico";
@@ -106,13 +115,13 @@ class LiveFootballServiceTest {
         liveFootballService.updateGameScore(firstGame, 3, 1);
 
         // then
-        assertEquals(3, firstGame.getHomeScore());
-        assertEquals(1, firstGame.getAwayScore());
+        assertThat(3).isEqualTo(firstGame.getHomeScore());
+        assertThat(1).isEqualTo(firstGame.getAwayScore());
     }
 
 
     @Test
-    public void user_updates_two_games_and_receives_live_games_info() {
+    public void should_return_live_games_info_with_updated_scores_when_user_updates_two_games() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
         final String firstGameHomeTeam = "Mexico";
@@ -127,11 +136,11 @@ class LiveFootballServiceTest {
         liveFootballService.updateGameScore(secondGame, 1, 1);
 
         // then
-        assertEquals("[Mexico-Canada: 3-1, Spain-Brazil: 1-1]", liveFootballService.getLiveGamesInfo());
+        assertThat("[Mexico-Canada: 3-1, Spain-Brazil: 1-1]").isEqualTo(liveFootballService.getLiveGamesInfo());
     }
 
     @Test
-    public void user_finishes_the_game_and_it_gets_removed_from_live_scoreboard_and_gets_added_to_games_summary() {
+    public void should_remove_game_from_live_scoreboard_and_add_to_summary_when_user_finishes_game() {
         // given
         final LiveFootballService liveFootballService = new LiveFootballService();
         final String homeTeam = "Mexico";
@@ -142,8 +151,8 @@ class LiveFootballServiceTest {
         liveFootballService.finishGame(game);
 
         // then
-        assertFalse(liveFootballService.getGamesLiveScoreboard().contains(game));
-        assertTrue(liveFootballService.getGamesSummary().contains(game));
+        assertThat(liveFootballService.getGamesLiveScoreboard().contains(game)).isFalse();
+        assertThat(liveFootballService.getGamesSummary().contains(game)).isTrue();
     }
 
 }
