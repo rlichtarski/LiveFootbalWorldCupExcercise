@@ -10,12 +10,10 @@ public class LiveFootballService {
     private final GameValidator gameValidator = new GameValidator();
     private final GameSummarizer gameSummarizer = new GameSummarizer();
     private final GameLiveScoreboard gameLiveScoreboard = new GameLiveScoreboard();
+    private final GameLauncher gameLauncher = new GameLauncher(gameValidator, gameLiveScoreboard);
 
     Game startGame(final HomeTeam homeTeam, final AwayTeam awayTeam) {
-        gameValidator.validateGameBeforeStart(homeTeam, awayTeam, gameLiveScoreboard.getLiveScoreboard());
-        final Game game = new Game(homeTeam, awayTeam);
-        gameLiveScoreboard.add(game);
-        return game;
+        return gameLauncher.startGame(homeTeam, awayTeam);
     }
 
     public String getLiveScoreboardInfoAsString() {

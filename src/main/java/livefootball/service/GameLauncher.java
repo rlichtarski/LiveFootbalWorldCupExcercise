@@ -1,0 +1,24 @@
+package livefootball.service;
+
+import livefootball.domain.AwayTeam;
+import livefootball.domain.Game;
+import livefootball.domain.HomeTeam;
+
+class GameLauncher {
+
+    private final GameValidator gameValidator;
+    private final GameLiveScoreboard gameLiveScoreboard;
+
+    GameLauncher(final GameValidator gameValidator, final GameLiveScoreboard gameLiveScoreboard) {
+        this.gameValidator = gameValidator;
+        this.gameLiveScoreboard = gameLiveScoreboard;
+    }
+
+    Game startGame(final HomeTeam homeTeam, final AwayTeam awayTeam) {
+        gameValidator.validateGameBeforeStart(homeTeam, awayTeam, gameLiveScoreboard.getLiveScoreboard());
+        final Game game = new Game(homeTeam, awayTeam);
+        gameLiveScoreboard.add(game);
+        return game;
+    }
+
+}
