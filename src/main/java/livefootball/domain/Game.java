@@ -1,13 +1,13 @@
 package livefootball.domain;
 
 public record Game(
-        String homeTeam,
-        String awayTeam,
+        HomeTeam homeTeam,
+        AwayTeam awayTeam,
         int homeScore,
         int awayScore
 ) {
 
-    public Game(String homeTeam, String awayTeam) {
+    public Game(HomeTeam homeTeam, AwayTeam awayTeam) {
         this(homeTeam, awayTeam, 0, 0);
     }
 
