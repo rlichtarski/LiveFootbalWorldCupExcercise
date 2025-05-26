@@ -46,10 +46,10 @@ class LiveFootballServiceTest {
 
         // then
         assertAll(
-                () -> assertThat(game.getHomeTeam()).isEqualTo(homeTeam),
-                () -> assertThat(game.getAwayTeam()).isEqualTo(awayTeam),
-                () -> assertThat(game.getHomeScore()).isZero(),
-                () -> assertThat(game.getAwayScore()).isZero(),
+                () -> assertThat(game.homeTeam()).isEqualTo(homeTeam),
+                () -> assertThat(game.awayTeam()).isEqualTo(awayTeam),
+                () -> assertThat(game.homeScore()).isZero(),
+                () -> assertThat(game.awayScore()).isZero(),
                 () -> assertThat(game.getOverallScore()).isZero(),
                 () -> assertThat(liveFootballService.getGamesLiveScoreboard())
                         .hasSize(1)
@@ -94,11 +94,11 @@ class LiveFootballServiceTest {
                         .containsExactlyInAnyOrder(firstGame, secondGame),
 
                 () -> assertThat(firstGame)
-                        .extracting(Game::getHomeTeam, Game::getAwayTeam)
+                        .extracting(Game::homeTeam, Game::awayTeam)
                         .containsExactly(firstGameHomeTeam, firstGameAwayTeam),
 
                 () -> assertThat(secondGame)
-                        .extracting(Game::getHomeTeam, Game::getAwayTeam)
+                        .extracting(Game::homeTeam, Game::awayTeam)
                         .containsExactly(secondGameHomeTeam, secondGameAwayTeam)
         );
     }
@@ -109,14 +109,21 @@ class LiveFootballServiceTest {
         final LiveFootballService liveFootballService = new LiveFootballService();
         final String homeTeam = "Mexico";
         final String awayTeam = "Canada";
-        final Game firstGame = liveFootballService.startGame(homeTeam, awayTeam);
+        final Game game = liveFootballService.startGame(homeTeam, awayTeam);
 
         // when
-        liveFootballService.updateGameScore(firstGame, 3, 1);
+        final Game updatedGame = liveFootballService.updateGameScore(game, 3, 1);
 
         // then
-        assertThat(3).isEqualTo(firstGame.getHomeScore());
-        assertThat(1).isEqualTo(firstGame.getAwayScore());
+        assertAll(
+                () -> assertThat(updatedGame.homeScore()).isEqualTo(3),
+                () -> assertThat(updatedGame.awayScore()).isEqualTo(1),
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .containsExactly(updatedGame),
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .doesNotContain(game)
+        );
+
     }
 
 

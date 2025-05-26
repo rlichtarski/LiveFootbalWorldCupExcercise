@@ -1,37 +1,18 @@
 package livefootball.domain;
 
-public class Game {
-    private final String homeTeam;
-    private final String awayTeam;
-    private int homeScore;
-    private int awayScore;
+public record Game(
+        String homeTeam,
+        String awayTeam,
+        int homeScore,
+        int awayScore
+) {
 
-    public Game(final String homeTeam, final String awayTeam) {
-        this.homeTeam = homeTeam;
-        this.awayTeam = awayTeam;
-        this.homeScore = 0;
-        this.awayScore = 0;
+    public Game(String homeTeam, String awayTeam) {
+        this(homeTeam, awayTeam, 0, 0);
     }
 
-    public String getHomeTeam() {
-        return homeTeam;
-    }
-
-    public String getAwayTeam() {
-        return awayTeam;
-    }
-
-    public int getHomeScore() {
-        return homeScore;
-    }
-
-    public int getAwayScore() {
-        return awayScore;
-    }
-
-    public void setScore(int homeScore, int awayScore) {
-        this.homeScore = homeScore;
-        this.awayScore = awayScore;
+    public Game copyWithGameScore(int homeScore, int awayScore) {
+        return new Game(homeTeam, awayTeam, homeScore, awayScore);
     }
 
     public int getOverallScore() {

@@ -20,20 +20,20 @@ public class LiveFootballService {
     String getLiveGamesInfo() {
         return gamesLiveScoreboard.stream().map(
                 game ->
-                        game.getHomeTeam() + "-"
-                        + game.getAwayTeam() + ": "
-                        + game.getHomeScore() + "-"
-                        + game.getAwayScore()
+                        game.homeTeam() + "-"
+                        + game.awayTeam() + ": "
+                        + game.homeScore() + "-"
+                        + game.awayScore()
         ).toList().toString();
     }
 
     String getSummaryGamesInfo() {
         return gamesSummary.stream().map(
                 game ->
-                        game.getHomeTeam() + "-"
-                        + game.getAwayTeam() + ": "
-                        + game.getHomeScore() + "-"
-                        + game.getAwayScore()
+                        game.homeTeam() + "-"
+                        + game.awayTeam() + ": "
+                        + game.homeScore() + "-"
+                        + game.awayScore()
         ).toList().toString();
     }
 
@@ -53,11 +53,14 @@ public class LiveFootballService {
     }
 
     private static boolean checkIfMatchIsAlreadyOngoing(final String homeTeam, final String awayTeam, final Game game) {
-        return game.getHomeTeam().equals(homeTeam) || game.getAwayTeam().equals(awayTeam);
+        return game.homeTeam().equals(homeTeam) || game.awayTeam().equals(awayTeam);
     }
 
-    void updateGameScore(final Game game, final int homeScore, final int awayScore) {
-        game.setScore(homeScore, awayScore);
+    Game updateGameScore(Game game, final int homeScore, final int awayScore) {
+        final int gameIndex = gamesLiveScoreboard.indexOf(game);
+        final Game updatedScoreGame = game.copyWithGameScore(homeScore, awayScore);
+        gamesLiveScoreboard.set(gameIndex, updatedScoreGame);
+        return updatedScoreGame;
     }
 
     void finishGame(final Game game) {
