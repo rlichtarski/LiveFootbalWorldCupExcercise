@@ -28,7 +28,7 @@ class GameLiveScoreboard {
         return updatedScoreGame;
     }
 
-    String getLiveGamesInfoAsString() {
+    String getLiveScoreboardInfoAsString() {
         return liveScoreboard.stream()
                 .map(g -> "%s-%s: %d-%d".formatted(
                         g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))

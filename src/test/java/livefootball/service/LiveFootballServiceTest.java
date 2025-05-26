@@ -145,7 +145,7 @@ class LiveFootballServiceTest {
         liveFootballService.updateGameScore(secondGame, 1, 1);
 
         // then
-        assertThat("[Mexico-Canada: 3-1, Spain-Brazil: 1-1]").isEqualTo(liveFootballService.getLiveGamesInfo());
+        assertThat(liveFootballService.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 3-1, Spain-Brazil: 1-1]");
     }
 
     @Test

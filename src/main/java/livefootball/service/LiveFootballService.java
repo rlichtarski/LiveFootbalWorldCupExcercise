@@ -18,8 +18,8 @@ public class LiveFootballService {
         return game;
     }
 
-    public List<Game> getLiveGamesInfo() {
-        return gameLiveScoreboard.getLiveScoreboard();
+    public String getLiveScoreboardInfoAsString() {
+        return gameLiveScoreboard.getLiveScoreboardInfoAsString();
     }
 
     public Game updateGameScore(Game game, final int homeScore, final int awayScore) {
