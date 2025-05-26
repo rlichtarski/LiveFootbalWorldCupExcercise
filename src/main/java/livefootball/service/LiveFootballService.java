@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LiveFootballService {
+    private final GameValidator gameValidator = new GameValidator();
+
     private final List<Game> gamesSummary = new ArrayList<>();
     private final List<Game> gamesLiveScoreboard = new ArrayList<>();
 
@@ -36,22 +38,10 @@ public class LiveFootballService {
     }
 
     Game startGame(final HomeTeam homeTeam, final AwayTeam awayTeam) {
-        validateGameBeforeStart(homeTeam, awayTeam);
+        gameValidator.validateGameBeforeStart(homeTeam, awayTeam, gamesLiveScoreboard);
         final Game game = new Game(homeTeam, awayTeam);
         gamesLiveScoreboard.add(game);
         return game;
-    }
-
-    private void validateGameBeforeStart(final HomeTeam homeTeam, final AwayTeam awayTeam) {
-        if (gamesLiveScoreboard.stream()
-                .anyMatch(game -> checkIfMatchIsAlreadyOngoing(homeTeam, awayTeam, game))
-        ) {
-            throw new IllegalArgumentException("This game is already ongoing");
-        }
-    }
-
-    private static boolean checkIfMatchIsAlreadyOngoing(final HomeTeam homeTeam, final AwayTeam awayTeam, final Game game) {
-        return game.homeTeam().equals(homeTeam) || game.awayTeam().equals(awayTeam);
     }
 
     Game updateGameScore(Game game, final int homeScore, final int awayScore) {
