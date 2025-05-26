@@ -6,7 +6,7 @@ import livefootball.domain.HomeTeam;
 
 import java.util.List;
 
-final class GameValidator {
+class GameValidator {
 
     void validateGameBeforeStart(final HomeTeam homeTeam, final AwayTeam awayTeam, List<Game> gamesLiveScoreboard) {
         if (gamesLiveScoreboard.stream()

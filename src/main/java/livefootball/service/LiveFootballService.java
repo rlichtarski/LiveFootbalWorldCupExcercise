@@ -4,47 +4,38 @@ import livefootball.domain.AwayTeam;
 import livefootball.domain.Game;
 import livefootball.domain.HomeTeam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LiveFootballService {
     private final GameValidator gameValidator = new GameValidator();
     private final GameSummarizer gameSummarizer = new GameSummarizer();
-
-    private final List<Game> gamesLiveScoreboard = new ArrayList<>();
-
-    List<Game> getGamesLiveScoreboard() {
-        return gamesLiveScoreboard;
-    }
-
-    String getLiveGamesInfo() {
-        return gamesLiveScoreboard.stream()
-                .map(g -> "%s-%s: %d-%d".formatted(
-                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))
-                .toList()
-                .toString();
-    }
+    private final GameLiveScoreboard gameLiveScoreboard = new GameLiveScoreboard();
 
     Game startGame(final HomeTeam homeTeam, final AwayTeam awayTeam) {
-        gameValidator.validateGameBeforeStart(homeTeam, awayTeam, gamesLiveScoreboard);
+        gameValidator.validateGameBeforeStart(homeTeam, awayTeam, gameLiveScoreboard.getLiveScoreboard());
         final Game game = new Game(homeTeam, awayTeam);
-        gamesLiveScoreboard.add(game);
+        gameLiveScoreboard.add(game);
         return game;
     }
 
-    Game updateGameScore(Game game, final int homeScore, final int awayScore) {
-        final int gameIndex = gamesLiveScoreboard.indexOf(game);
-        final Game updatedScoreGame = game.copyWithGameScore(homeScore, awayScore);
-        gamesLiveScoreboard.set(gameIndex, updatedScoreGame);
-        return updatedScoreGame;
+    public List<Game> getLiveGamesInfo() {
+        return gameLiveScoreboard.getLiveScoreboard();
+    }
+
+    public Game updateGameScore(Game game, final int homeScore, final int awayScore) {
+        return gameLiveScoreboard.updateGameScore(game, homeScore, awayScore);
+    }
+
+    public List<Game> getGamesLiveScoreboard() {
+        return gameLiveScoreboard.getLiveScoreboard();
     }
 
     public List<Game> getGamesSummary() {
-        return gameSummarizer.getGamesSummary();
+        return gameSummarizer.getSummary();
     }
 
     void finishGame(final Game game) {
-        gamesLiveScoreboard.remove(game);
+        gameLiveScoreboard.remove(game);
         gameSummarizer.add(game);
     }
 }

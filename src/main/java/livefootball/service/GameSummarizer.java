@@ -7,18 +7,18 @@ import java.util.List;
 
 class GameSummarizer {
 
-    private final List<Game> gamesSummary = new ArrayList<>();
+    private final List<Game> summary = new ArrayList<>();
 
-    List<Game> getGamesSummary() {
-        return gamesSummary;
+    List<Game> getSummary() {
+        return summary;
     }
 
     void add(Game game) {
-        gamesSummary.add(game);
+        summary.add(game);
     }
 
-    String getSummaryGamesInfo() {
-        return gamesSummary.stream()
+    String getSummaryGamesInfoAsString() {
+        return summary.stream()
                 .map(g -> "%s-%s: %d-%d".formatted(
                         g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))
                 .toList()
