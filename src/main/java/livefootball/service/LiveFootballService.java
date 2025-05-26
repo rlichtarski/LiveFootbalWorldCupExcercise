@@ -9,28 +9,16 @@ import java.util.List;
 
 public class LiveFootballService {
     private final GameValidator gameValidator = new GameValidator();
+    private final GameSummarizer gameSummarizer = new GameSummarizer();
 
-    private final List<Game> gamesSummary = new ArrayList<>();
     private final List<Game> gamesLiveScoreboard = new ArrayList<>();
 
     List<Game> getGamesLiveScoreboard() {
         return gamesLiveScoreboard;
     }
 
-    List<Game> getGamesSummary() {
-        return gamesSummary;
-    }
-
     String getLiveGamesInfo() {
         return gamesLiveScoreboard.stream()
-                .map(g -> "%s-%s: %d-%d".formatted(
-                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))
-                .toList()
-                .toString();
-    }
-
-    String getSummaryGamesInfo() {
-        return gamesSummary.stream()
                 .map(g -> "%s-%s: %d-%d".formatted(
                         g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))
                 .toList()
@@ -51,8 +39,12 @@ public class LiveFootballService {
         return updatedScoreGame;
     }
 
+    public List<Game> getGamesSummary() {
+        return gameSummarizer.getGamesSummary();
+    }
+
     void finishGame(final Game game) {
         gamesLiveScoreboard.remove(game);
-        gamesSummary.add(game);
+        gameSummarizer.add(game);
     }
 }
