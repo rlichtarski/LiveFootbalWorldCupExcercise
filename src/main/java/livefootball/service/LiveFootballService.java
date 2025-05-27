@@ -20,6 +20,10 @@ public class LiveFootballService {
         return gameLiveScoreboard.getLiveScoreboardInfoAsString();
     }
 
+    public String getSummaryGamesInfoAsString() {
+        return gameSummarizer.getSummaryGamesInfoAsString();
+    }
+
     public Game updateGameScore(Game game, final int homeScore, final int awayScore) {
         return gameLiveScoreboard.updateGameScore(game, homeScore, awayScore);
     }

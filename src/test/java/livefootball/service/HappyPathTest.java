@@ -19,6 +19,8 @@ class HappyPathTest {
     final AwayTeam canadaHomeTeam = new AwayTeam("Canada");
     final HomeTeam spainHomeTeam = new HomeTeam("Spain");
     final AwayTeam brazilAwayTeam = new AwayTeam("Brazil");
+    final HomeTeam argentinaHomeTeam = new HomeTeam("Argentina");
+    final AwayTeam australiaAwayTeam = new AwayTeam("Australia");
 
     @BeforeEach
     void setUp() {
@@ -44,45 +46,84 @@ class HappyPathTest {
 
         //3. The user starts a game with home team Mexico and away team Canada. The score is 0-0
         // when
-        final Game game = liveFootballService.startGame(mexicoHomeTeam, canadaHomeTeam);
+        final Game gameMexicoCanada = liveFootballService.startGame(mexicoHomeTeam, canadaHomeTeam);
         // then
         assertAll(
-                () -> assertThat(game.homeTeam()).isEqualTo(mexicoHomeTeam),
-                () -> assertThat(game.awayTeam()).isEqualTo(canadaHomeTeam),
-                () -> assertThat(game.homeScore()).isZero(),
-                () -> assertThat(game.awayScore()).isZero(),
-                () -> assertThat(game.getOverallScore()).isZero(),
+                () -> assertThat(gameMexicoCanada.homeTeam()).isEqualTo(mexicoHomeTeam),
+                () -> assertThat(gameMexicoCanada.awayTeam()).isEqualTo(canadaHomeTeam),
+                () -> assertThat(gameMexicoCanada.homeScore()).isZero(),
+                () -> assertThat(gameMexicoCanada.awayScore()).isZero(),
+                () -> assertThat(gameMexicoCanada.getOverallScore()).isZero(),
                 () -> assertThat(liveFootballService.getGamesLiveScoreboard())
                         .hasSize(1)
-                        .contains(game)
+                        .contains(gameMexicoCanada)
         );
 
         //4. The user displayed a live scoreboard and there is one match Mexico-Canada with the score: 0-0.
         assertThat(liveFootballService.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 0-0]");
 
         //5. The user starts a game with home team Spain and away team Brazil. The score is 0-0.
-        final Game game2 = liveFootballService.startGame(spainHomeTeam, brazilAwayTeam);
+        final Game gameSpainBrazil = liveFootballService.startGame(spainHomeTeam, brazilAwayTeam);
         assertAll(
-                () -> assertThat(game2.homeTeam()).isEqualTo(spainHomeTeam),
-                () -> assertThat(game2.awayTeam()).isEqualTo(brazilAwayTeam),
-                () -> assertThat(game2.homeScore()).isZero(),
-                () -> assertThat(game2.awayScore()).isZero(),
-                () -> assertThat(game2.getOverallScore()).isZero(),
+                () -> assertThat(gameSpainBrazil.homeTeam()).isEqualTo(spainHomeTeam),
+                () -> assertThat(gameSpainBrazil.awayTeam()).isEqualTo(brazilAwayTeam),
+                () -> assertThat(gameSpainBrazil.homeScore()).isZero(),
+                () -> assertThat(gameSpainBrazil.awayScore()).isZero(),
+                () -> assertThat(gameSpainBrazil.getOverallScore()).isZero(),
                 () -> assertThat(liveFootballService.getGamesLiveScoreboard())
                         .hasSize(2)
-                        .contains(game2)
+                        .contains(gameSpainBrazil)
         );
 
         //6. The user updated the score for the match Mexico-Canada: 3-1
-        //7. The user displayed a live scoreboard and there are two matches: Mexico-Canada (3-1) and Spain-Brazil (0-0).
-        //8. The user updated the score for the match Spain-Brazil: 1-1
-        //9. The user finished the match Mexico-Canada.
-        //10. The user displayed a live scoreboard and there is one match: Spain-Brazil (1-1).
-        //11. The user starts a game with home team Argentina and away team Australia. The score is 0-0.
-        //12. The user updated the score for the match Argentina-Australia: 2-2
-        //13. The user finished the match Argentina-Australia.
-        //14. The user displayed the summary and there are two past matches in the following order:  Argentina-Australia: (2-2) Mexico-Canada (3-1).
+        final Game updatedMexicoCanadaGame = liveFootballService.updateGameScore(gameMexicoCanada, 3, 1);
+        assertAll(
+                () -> assertThat(updatedMexicoCanadaGame.homeScore()).isEqualTo(3),
+                () -> assertThat(updatedMexicoCanadaGame.awayScore()).isEqualTo(1),
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .contains(updatedMexicoCanadaGame),
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .doesNotContain(gameMexicoCanada)
+        );
 
+        //7. The user displayed a live scoreboard and there are two matches: Mexico-Canada (3-1) and Spain-Brazil (0-0).
+        assertThat(liveFootballService.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 3-1, Spain-Brazil: 0-0]");
+
+        //8. The user updated the score for the match Spain-Brazil: 1-1
+        final Game updatedSpainBrazilGame = liveFootballService.updateGameScore(gameSpainBrazil, 1, 1);
+
+        //9. The user finished the match Mexico-Canada.
+        liveFootballService.finishGame(updatedMexicoCanadaGame);
+
+        //10. The user displayed a live scoreboard and there is one match: Spain-Brazil (1-1).
+        assertThat(liveFootballService.getLiveScoreboardInfoAsString()).isEqualTo("[Spain-Brazil: 1-1]");
+
+        //11. The user starts a game with home team Argentina and away team Australia. The score is 0-0.
+        final Game gameArgentinaAustralia = liveFootballService.startGame(argentinaHomeTeam, australiaAwayTeam);
+        assertAll(
+                () -> assertThat(gameArgentinaAustralia.homeTeam()).isEqualTo(argentinaHomeTeam),
+                () -> assertThat(gameArgentinaAustralia.awayTeam()).isEqualTo(australiaAwayTeam),
+                () -> assertThat(gameArgentinaAustralia.homeScore()).isZero(),
+                () -> assertThat(gameArgentinaAustralia.awayScore()).isZero(),
+                () -> assertThat(gameArgentinaAustralia.getOverallScore()).isZero()
+        );
+
+        //12. The user updated the score for the match Argentina-Australia: 2-2
+        final Game updatedArgentinaAustraliaGame = liveFootballService.updateGameScore(gameArgentinaAustralia, 2, 2);
+        assertAll(
+                () -> assertThat(updatedArgentinaAustraliaGame.homeScore()).isEqualTo(2),
+                () -> assertThat(updatedArgentinaAustraliaGame.awayScore()).isEqualTo(2),
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .contains(updatedArgentinaAustraliaGame),
+                () -> assertThat(liveFootballService.getGamesLiveScoreboard())
+                        .doesNotContain(gameArgentinaAustralia)
+        );
+
+        //13. The user finished the match Argentina-Australia.
+        liveFootballService.finishGame(updatedArgentinaAustraliaGame);
+
+        //14. The user displayed the summary and there are two past matches in the following order: Argentina-Australia: (2-2), Mexico-Canada (3-1).
+        assertThat(liveFootballService.getSummaryGamesInfoAsString()).isEqualTo("[Argentina-Australia: 2-2, Mexico-Canada: 3-1]");
     }
 
 }

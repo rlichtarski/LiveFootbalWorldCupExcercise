@@ -162,6 +162,7 @@ class LiveFootballServiceTest {
         // then
         assertThat(liveFootballService.getGamesLiveScoreboard().contains(game)).isFalse();
         assertThat(liveFootballService.getGamesSummary().contains(game)).isTrue();
+        assertThat(liveFootballService.getSummaryGamesInfoAsString()).isEqualTo("[Mexico-Canada: 0-0]");
     }
 
 }
