@@ -38,6 +38,10 @@ class GameLiveScoreboard {
         return game.homeTeam().equals(homeTeam) || game.awayTeam().equals(awayTeam);
     }
 
+    void validateBy(final Team homeTeam, final Team awayTeam) {
+        validateGameBeforeStart(homeTeam, awayTeam, liveScoreboard);
+    }
+
     String getLiveScoreboardInfoAsString() {
         return liveScoreboard.stream()
                 .map(g -> "%s-%s: %d-%d".formatted(
@@ -45,5 +49,4 @@ class GameLiveScoreboard {
                 .toList()
                 .toString();
     }
-
 }
