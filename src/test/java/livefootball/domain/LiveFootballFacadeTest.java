@@ -47,8 +47,8 @@ class LiveFootballFacadeTest {
         assertAll(
                 () -> assertThat(game.homeTeam()).isEqualTo(homeTeam),
                 () -> assertThat(game.awayTeam()).isEqualTo(awayTeam),
-                () -> assertThat(game.homeScore()).isZero(),
-                () -> assertThat(game.awayScore()).isZero(),
+                () -> assertThat(game.homeScore().value()).isZero(),
+                () -> assertThat(game.awayScore().value()).isZero(),
                 () -> assertThat(game.getOverallScore()).isZero(),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
                         .hasSize(1)
@@ -111,12 +111,12 @@ class LiveFootballFacadeTest {
         final Game game = liveFootballFacade.startGame(homeTeam, awayTeam);
 
         // when
-        final Game updatedGame = liveFootballFacade.updateGameScore(game, 3, 1);
+        final Game updatedGame = liveFootballFacade.updateGameScore(game, new Score(3), new Score(1));
 
         // then
         assertAll(
-                () -> assertThat(updatedGame.homeScore()).isEqualTo(3),
-                () -> assertThat(updatedGame.awayScore()).isEqualTo(1),
+                () -> assertThat(updatedGame.homeScore().value()).isEqualTo(3),
+                () -> assertThat(updatedGame.awayScore().value()).isEqualTo(1),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
                         .containsExactly(updatedGame),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
@@ -138,8 +138,8 @@ class LiveFootballFacadeTest {
         final Game secondGame = liveFootballFacade.startGame(secondGameHomeTeam, secondGameAwayTeam);
 
         // when
-        liveFootballFacade.updateGameScore(firstGame, 3, 1);
-        liveFootballFacade.updateGameScore(secondGame, 1, 1);
+        liveFootballFacade.updateGameScore(firstGame, new Score(3), new Score(1));
+        liveFootballFacade.updateGameScore(secondGame, new Score(1), new Score(1));
 
         // then
         assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 3-1, Spain-Brazil: 1-1]");

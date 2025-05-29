@@ -26,7 +26,7 @@ class GameSummarizer {
     String getSummaryGamesInfoAsString() {
         return getSummary().stream()
                 .map(g -> "%s-%s: %d-%d".formatted(
-                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore(), g.awayScore()))
+                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore().value(), g.awayScore().value()))
                 .toList()
                 .toString();
     }

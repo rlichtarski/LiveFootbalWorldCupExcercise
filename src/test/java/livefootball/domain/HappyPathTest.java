@@ -42,8 +42,8 @@ class HappyPathTest {
         assertAll(
                 () -> assertThat(gameMexicoCanada.homeTeam()).isEqualTo(mexicoHomeTeam),
                 () -> assertThat(gameMexicoCanada.awayTeam()).isEqualTo(canadaHomeTeam),
-                () -> assertThat(gameMexicoCanada.homeScore()).isZero(),
-                () -> assertThat(gameMexicoCanada.awayScore()).isZero(),
+                () -> assertThat(gameMexicoCanada.homeScore().value()).isZero(),
+                () -> assertThat(gameMexicoCanada.awayScore().value()).isZero(),
                 () -> assertThat(gameMexicoCanada.getOverallScore()).isZero(),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
                         .hasSize(1)
@@ -58,8 +58,8 @@ class HappyPathTest {
         assertAll(
                 () -> assertThat(gameSpainBrazil.homeTeam()).isEqualTo(spainHomeTeam),
                 () -> assertThat(gameSpainBrazil.awayTeam()).isEqualTo(brazilAwayTeam),
-                () -> assertThat(gameSpainBrazil.homeScore()).isZero(),
-                () -> assertThat(gameSpainBrazil.awayScore()).isZero(),
+                () -> assertThat(gameSpainBrazil.homeScore().value()).isZero(),
+                () -> assertThat(gameSpainBrazil.awayScore().value()).isZero(),
                 () -> assertThat(gameSpainBrazil.getOverallScore()).isZero(),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
                         .hasSize(2)
@@ -67,10 +67,10 @@ class HappyPathTest {
         );
 
         //6. The user updated the score for the match Mexico-Canada: 3-1
-        final Game updatedMexicoCanadaGame = liveFootballFacade.updateGameScore(gameMexicoCanada, 3, 1);
+        final Game updatedMexicoCanadaGame = liveFootballFacade.updateGameScore(gameMexicoCanada, new Score(3), new Score(1));
         assertAll(
-                () -> assertThat(updatedMexicoCanadaGame.homeScore()).isEqualTo(3),
-                () -> assertThat(updatedMexicoCanadaGame.awayScore()).isEqualTo(1),
+                () -> assertThat(updatedMexicoCanadaGame.homeScore().value()).isEqualTo(3),
+                () -> assertThat(updatedMexicoCanadaGame.awayScore().value()).isEqualTo(1),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
                         .contains(updatedMexicoCanadaGame),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
@@ -81,7 +81,7 @@ class HappyPathTest {
         assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 3-1, Spain-Brazil: 0-0]");
 
         //8. The user updated the score for the match Spain-Brazil: 1-1
-        final Game updatedSpainBrazilGame = liveFootballFacade.updateGameScore(gameSpainBrazil, 1, 1);
+        final Game updatedSpainBrazilGame = liveFootballFacade.updateGameScore(gameSpainBrazil, new Score(1), new Score(1));
 
         //9. The user finished the match Mexico-Canada.
         liveFootballFacade.finishGame(updatedMexicoCanadaGame);
@@ -94,16 +94,16 @@ class HappyPathTest {
         assertAll(
                 () -> assertThat(gameArgentinaAustralia.homeTeam()).isEqualTo(argentinaHomeTeam),
                 () -> assertThat(gameArgentinaAustralia.awayTeam()).isEqualTo(australiaAwayTeam),
-                () -> assertThat(gameArgentinaAustralia.homeScore()).isZero(),
-                () -> assertThat(gameArgentinaAustralia.awayScore()).isZero(),
+                () -> assertThat(gameArgentinaAustralia.homeScore().value()).isZero(),
+                () -> assertThat(gameArgentinaAustralia.awayScore().value()).isZero(),
                 () -> assertThat(gameArgentinaAustralia.getOverallScore()).isZero()
         );
 
         //12. The user updated the score for the match Argentina-Australia: 2-2
-        final Game updatedArgentinaAustraliaGame = liveFootballFacade.updateGameScore(gameArgentinaAustralia, 2, 2);
+        final Game updatedArgentinaAustraliaGame = liveFootballFacade.updateGameScore(gameArgentinaAustralia, new Score(2), new Score(2));
         assertAll(
-                () -> assertThat(updatedArgentinaAustraliaGame.homeScore()).isEqualTo(2),
-                () -> assertThat(updatedArgentinaAustraliaGame.awayScore()).isEqualTo(2),
+                () -> assertThat(updatedArgentinaAustraliaGame.homeScore().value()).isEqualTo(2),
+                () -> assertThat(updatedArgentinaAustraliaGame.awayScore().value()).isEqualTo(2),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
                         .contains(updatedArgentinaAustraliaGame),
                 () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())

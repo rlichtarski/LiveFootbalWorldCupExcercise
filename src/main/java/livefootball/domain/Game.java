@@ -3,20 +3,20 @@ package livefootball.domain;
 public record Game(
         Team homeTeam,
         Team awayTeam,
-        int homeScore,
-        int awayScore
+        Score homeScore,
+        Score awayScore
 ) {
 
     public Game(Team homeTeam, Team awayTeam) {
-        this(homeTeam, awayTeam, 0, 0);
+        this(homeTeam, awayTeam, new Score(0), new Score(0));
     }
 
-    public Game copyWithGameScore(int homeScore, int awayScore) {
+    public Game copyWithGameScore(Score homeScore, Score awayScore) {
         return new Game(homeTeam, awayTeam, homeScore, awayScore);
     }
 
     public int getOverallScore() {
-        return homeScore + awayScore;
+        return homeScore.value() + awayScore.value();
     }
 
 }

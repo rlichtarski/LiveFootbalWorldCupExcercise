@@ -20,7 +20,7 @@ public class LiveFootballFacade {
         return gameSummarizer.getSummaryGamesInfoAsString();
     }
 
-    public Game updateGameScore(Game game, final int homeScore, final int awayScore) {
+    public Game updateGameScore(Game game, final Score homeScore, final Score awayScore) {
         return gameLiveScoreboard.updateGameScore(game, homeScore, awayScore);
     }
 
