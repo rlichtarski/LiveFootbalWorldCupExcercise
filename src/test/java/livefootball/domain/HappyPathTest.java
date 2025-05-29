@@ -148,23 +148,54 @@ class HappyPathTest {
         //13. The user finished the match Argentina-Australia.
         liveFootballFacade.finishGame(updatedArgentinaAustraliaGame);
 
-        //14. The user displayed the summary and there are two past matches in the following order: Argentina-Australia: (2-2), Mexico-Canada (3-1).
+        //14. The user starts a game with home team Poland and away team Italy.
+        final Game gamePolandItaly = liveFootballFacade.startGame(new Team("Poland"), new Team("Italy"));
+
+        //15. The user updated the score for the match Argentina-Australia: 2-2
+        final Game updatedPolandItalyGame = liveFootballFacade.updateGameScore(gamePolandItaly, new Score(5), new Score(4));
+        assertAll(
+                () -> assertThat(updatedPolandItalyGame.homeScore().value()).isEqualTo(5),
+                () -> assertThat(updatedPolandItalyGame.awayScore().value()).isEqualTo(4)
+        );
+        assertAll(
+                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
+                        .contains(updatedPolandItalyGame),
+                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
+                        .doesNotContain(gamePolandItaly)
+        );
+
+        //16. The user finished the match Poland-Italy.
+        liveFootballFacade.finishGame(updatedPolandItalyGame);
+
+        /* 17. The user displayed the summary and there are three past matches in the following order:
+        / - Poland-Italy: (5-4),
+        / - Argentina-Australia: (2-2),
+        / - Mexico-Canada (3-1).
+        */
         {
             final Game game1 = liveFootballFacade.getGamesSummary().get(0);
             final Game game2 = liveFootballFacade.getGamesSummary().get(1);
+            final Game game3 = liveFootballFacade.getGamesSummary().get(2);
             assertAll(
-                    () -> assertThat(game1.homeTeam()).isEqualTo(new Team("Argentina")),
-                    () -> assertThat(game1.awayTeam()).isEqualTo(new Team("Australia")),
-                    () -> assertThat(game1.homeScore().value()).isEqualTo(2),
-                    () -> assertThat(game1.awayScore().value()).isEqualTo(2),
-                    () -> assertThat(game1.getOverallScore().value()).isEqualTo(4)
+                    () -> assertThat(game1.homeTeam()).isEqualTo(new Team("Poland")),
+                    () -> assertThat(game1.awayTeam()).isEqualTo(new Team("Italy")),
+                    () -> assertThat(game1.homeScore().value()).isEqualTo(5),
+                    () -> assertThat(game1.awayScore().value()).isEqualTo(4),
+                    () -> assertThat(game1.getOverallScore().value()).isEqualTo(9)
             );
             assertAll(
-                    () -> assertThat(game2.homeTeam()).isEqualTo(new Team("Mexico")),
-                    () -> assertThat(game2.awayTeam()).isEqualTo(new Team("Canada")),
-                    () -> assertThat(game2.homeScore().value()).isEqualTo(3),
-                    () -> assertThat(game2.awayScore().value()).isEqualTo(1),
+                    () -> assertThat(game2.homeTeam()).isEqualTo(new Team("Argentina")),
+                    () -> assertThat(game2.awayTeam()).isEqualTo(new Team("Australia")),
+                    () -> assertThat(game2.homeScore().value()).isEqualTo(2),
+                    () -> assertThat(game2.awayScore().value()).isEqualTo(2),
                     () -> assertThat(game2.getOverallScore().value()).isEqualTo(4)
+            );
+            assertAll(
+                    () -> assertThat(game3.homeTeam()).isEqualTo(new Team("Mexico")),
+                    () -> assertThat(game3.awayTeam()).isEqualTo(new Team("Canada")),
+                    () -> assertThat(game3.homeScore().value()).isEqualTo(3),
+                    () -> assertThat(game3.awayScore().value()).isEqualTo(1),
+                    () -> assertThat(game3.getOverallScore().value()).isEqualTo(4)
             );
         }
     }
