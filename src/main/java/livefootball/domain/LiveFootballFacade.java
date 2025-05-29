@@ -24,7 +24,7 @@ public class LiveFootballFacade {
     }
 
     void finishGame(final Game game) {
-        gameLiveScoreboard.removeGameFromLiveScoreboard(game);
         gameSummarizer.addGameToSummary(game);
+        gameLiveScoreboard.removeGameFromLiveScoreboard(game);
     }
 }
