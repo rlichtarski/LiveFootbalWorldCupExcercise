@@ -2,7 +2,7 @@ package livefootball.domain;
 
 import java.util.List;
 
-public class LiveFootballService {
+public class LiveFootballFacade {
     private final GameValidator gameValidator = new GameValidator();
     private final GameSummarizer gameSummarizer = new GameSummarizer();
     private final GameLiveScoreboard gameLiveScoreboard = new GameLiveScoreboard();
