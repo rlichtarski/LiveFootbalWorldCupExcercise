@@ -49,11 +49,11 @@ class LiveFootballFacadeTest {
                 () -> assertThat(game.awayTeam()).isEqualTo(awayTeam),
                 () -> assertThat(game.homeScore().value()).isZero(),
                 () -> assertThat(game.awayScore().value()).isZero(),
-                () -> assertThat(game.getOverallScore()).isZero(),
-                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
-                        .hasSize(1)
-                        .contains(game)
+                () -> assertThat(game.getOverallScore()).isZero()
         );
+        assertThat(liveFootballFacade.getGamesLiveScoreboard())
+                .hasSize(1)
+                .contains(game);
     }
 
     @Test
@@ -62,7 +62,7 @@ class LiveFootballFacadeTest {
         final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
         final Team homeTeam = new Team("Mexico");
         final Team awayTeam = new Team("Canada");
-        final Game game = liveFootballFacade.startGame(homeTeam, awayTeam);
+        liveFootballFacade.startGame(homeTeam, awayTeam);
 
         // when
 
@@ -87,19 +87,17 @@ class LiveFootballFacadeTest {
         final Game secondGame = liveFootballFacade.startGame(secondGameHomeTeam, secondGameAwayTeam);
 
         // then
-        assertAll(
-                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
+        assertThat(liveFootballFacade.getGamesLiveScoreboard())
                         .hasSize(2)
-                        .containsExactlyInAnyOrder(firstGame, secondGame),
+                        .containsExactlyInAnyOrder(firstGame, secondGame);
 
-                () -> assertThat(firstGame)
-                        .extracting(Game::homeTeam, Game::awayTeam)
-                        .containsExactly(firstGameHomeTeam, firstGameAwayTeam),
+        assertThat(firstGame)
+                .extracting(Game::homeTeam, Game::awayTeam)
+                .containsExactly(firstGameHomeTeam, firstGameAwayTeam);
 
-                () -> assertThat(secondGame)
-                        .extracting(Game::homeTeam, Game::awayTeam)
-                        .containsExactly(secondGameHomeTeam, secondGameAwayTeam)
-        );
+        assertThat(secondGame)
+                .extracting(Game::homeTeam, Game::awayTeam)
+                .containsExactly(secondGameHomeTeam, secondGameAwayTeam);
     }
 
     @Test
@@ -114,14 +112,17 @@ class LiveFootballFacadeTest {
         final Game updatedGame = liveFootballFacade.updateGameScore(game, new Score(3), new Score(1));
 
         // then
-        assertAll(
-                () -> assertThat(updatedGame.homeScore().value()).isEqualTo(3),
-                () -> assertThat(updatedGame.awayScore().value()).isEqualTo(1),
-                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
-                        .containsExactly(updatedGame),
-                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
-                        .doesNotContain(game)
-        );
+        {
+            assertThat(updatedGame.homeScore().value()).isEqualTo(3);
+            assertThat(updatedGame.awayScore().value()).isEqualTo(1);
+        }
+
+        {
+            assertThat(liveFootballFacade.getGamesLiveScoreboard())
+                    .containsExactly(updatedGame);
+            assertThat(liveFootballFacade.getGamesLiveScoreboard())
+                    .doesNotContain(game);
+        }
 
     }
 
