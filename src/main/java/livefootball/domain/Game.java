@@ -1,41 +1,25 @@
 package livefootball.domain;
 
-class Game {
-    private final String homeTeam;
-    private final String awayTeam;
-    private int homeScore;
-    private int awayScore;
+import java.util.UUID;
 
-    Game(final String homeTeam, final String awayTeam, final int homeScore, final int awayScore) {
-        this.homeTeam = homeTeam;
-        this.awayTeam = awayTeam;
-        this.homeScore = 0;
-        this.awayScore = 0;
+public record Game(
+        UUID id,
+        Team homeTeam,
+        Team awayTeam,
+        Score homeScore,
+        Score awayScore
+) {
+
+    public Game(Team homeTeam, Team awayTeam) {
+        this(UUID.randomUUID(), homeTeam, awayTeam, new Score(0), new Score(0));
     }
 
-    String getHomeTeam() {
-        return homeTeam;
+    public Game updateGameScore(Score homeScore, Score awayScore) {
+        return new Game(id, homeTeam, awayTeam, homeScore, awayScore);
     }
 
-    String getAwayTeam() {
-        return awayTeam;
-    }
-
-    int getHomeScore() {
-        return homeScore;
-    }
-
-    int getAwayScore() {
-        return awayScore;
-    }
-
-    public void setScore(int homeScore, int awayScore) {
-        this.homeScore = homeScore;
-        this.awayScore = awayScore;
-    }
-
-    public int getOverallScore() {
-        return homeScore + awayScore;
+    public Score getOverallScore() {
+        return homeScore.addScore(awayScore);
     }
 
 }
