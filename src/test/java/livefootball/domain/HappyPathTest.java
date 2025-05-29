@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class HappyPathTest {
 
     private final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-    final Team mexicoHomeTeam = new Team("Mexico");
-    final Team canadaHomeTeam = new Team("Canada");
-    final Team spainHomeTeam = new Team("Spain");
-    final Team brazilAwayTeam = new Team("Brazil");
-    final Team argentinaHomeTeam = new Team("Argentina");
-    final Team australiaAwayTeam = new Team("Australia");
+//    final Team mexicoHomeTeam = new Team("Mexico");
+//    final Team canadaHomeTeam = new Team("Canada");
+//    final Team spainHomeTeam = new Team("Spain");
+//    final Team brazilAwayTeam = new Team("Brazil");
+//    final Team argentinaHomeTeam = new Team("Argentina");
+//    final Team australiaAwayTeam = new Team("Australia");
 
     @Test
     public void happyPathTest() {
@@ -37,11 +37,11 @@ class HappyPathTest {
 
         //3. The user starts a game with home team Mexico and away team Canada. The score is 0-0
         // when
-        final Game gameMexicoCanada = liveFootballFacade.startGame(mexicoHomeTeam, canadaHomeTeam);
+        final Game gameMexicoCanada = liveFootballFacade.startGame(new Team("Mexico"), new Team("Canada"));
         // then
         assertAll(
-                () -> assertThat(gameMexicoCanada.homeTeam()).isEqualTo(mexicoHomeTeam),
-                () -> assertThat(gameMexicoCanada.awayTeam()).isEqualTo(canadaHomeTeam),
+                () -> assertThat(gameMexicoCanada.homeTeam()).isEqualTo(new Team("Mexico")),
+                () -> assertThat(gameMexicoCanada.awayTeam()).isEqualTo(new Team("Canada")),
                 () -> assertThat(gameMexicoCanada.homeScore().value()).isZero(),
                 () -> assertThat(gameMexicoCanada.awayScore().value()).isZero(),
                 () -> assertThat(gameMexicoCanada.getOverallScore()).isZero(),
@@ -54,10 +54,10 @@ class HappyPathTest {
         assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 0-0]");
 
         //5. The user starts a game with home team Spain and away team Brazil. The score is 0-0.
-        final Game gameSpainBrazil = liveFootballFacade.startGame(spainHomeTeam, brazilAwayTeam);
+        final Game gameSpainBrazil = liveFootballFacade.startGame(new Team("Spain"), new Team("Brazil"));
         assertAll(
-                () -> assertThat(gameSpainBrazil.homeTeam()).isEqualTo(spainHomeTeam),
-                () -> assertThat(gameSpainBrazil.awayTeam()).isEqualTo(brazilAwayTeam),
+                () -> assertThat(gameSpainBrazil.homeTeam()).isEqualTo(new Team("Spain")),
+                () -> assertThat(gameSpainBrazil.awayTeam()).isEqualTo(new Team("Brazil")),
                 () -> assertThat(gameSpainBrazil.homeScore().value()).isZero(),
                 () -> assertThat(gameSpainBrazil.awayScore().value()).isZero(),
                 () -> assertThat(gameSpainBrazil.getOverallScore()).isZero(),
@@ -90,10 +90,10 @@ class HappyPathTest {
         assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Spain-Brazil: 1-1]");
 
         //11. The user starts a game with home team Argentina and away team Australia. The score is 0-0.
-        final Game gameArgentinaAustralia = liveFootballFacade.startGame(argentinaHomeTeam, australiaAwayTeam);
+        final Game gameArgentinaAustralia = liveFootballFacade.startGame(new Team("Argentina"), new Team("Australia"));
         assertAll(
-                () -> assertThat(gameArgentinaAustralia.homeTeam()).isEqualTo(argentinaHomeTeam),
-                () -> assertThat(gameArgentinaAustralia.awayTeam()).isEqualTo(australiaAwayTeam),
+                () -> assertThat(gameArgentinaAustralia.homeTeam()).isEqualTo(new Team("Argentina")),
+                () -> assertThat(gameArgentinaAustralia.awayTeam()).isEqualTo(new Team("Australia")),
                 () -> assertThat(gameArgentinaAustralia.homeScore().value()).isZero(),
                 () -> assertThat(gameArgentinaAustralia.awayScore().value()).isZero(),
                 () -> assertThat(gameArgentinaAustralia.getOverallScore()).isZero()
