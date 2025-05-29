@@ -3,7 +3,7 @@
 #### This is a Java app, presenting the Live Football World Cup Score Board which shows matches and scores.
 
 Firstly, before writing any line of code, I sat down with notepad opened and wrote the happy path of going
-through this app. This is the happy path that I've written: \
+through this app. This is the happy path that I've written:
 ### Happy path:
 1. The user displayed a live scoreboard and there are no live matches.
 2. The user displayed a summary and there are no past matches.
