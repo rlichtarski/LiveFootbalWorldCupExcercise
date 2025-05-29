@@ -19,12 +19,12 @@ class GameSummarizer {
         return List.copyOf(summary);
     }
 
-    String getSummaryGamesInfoAsString() {
-        return getSummary().stream()
-                .map(g -> "%s-%s: %d-%d".formatted(
-                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore().value(), g.awayScore().value()))
-                .toList()
-                .toString();
-    }
+//    String getSummaryGamesInfoAsString() {
+//        return getSummary().stream()
+//                .map(g -> "%s-%s: %d-%d".formatted(
+//                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore().value(), g.awayScore().value()))
+//                .toList()
+//                .toString();
+//    }
 
 }

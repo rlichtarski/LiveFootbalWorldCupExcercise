@@ -139,11 +139,24 @@ class LiveFootballFacadeTest {
         final Game secondGame = liveFootballFacade.startGame(secondGameHomeTeam, secondGameAwayTeam);
 
         // when
-        liveFootballFacade.updateGameScore(firstGame, new Score(3), new Score(1));
-        liveFootballFacade.updateGameScore(secondGame, new Score(1), new Score(1));
+        final Game gameMexicoCanada = liveFootballFacade.updateGameScore(firstGame, new Score(3), new Score(1));
+        final Game gameSpainBrazil = liveFootballFacade.updateGameScore(secondGame, new Score(1), new Score(1));
 
         // then
-        assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 3-1, Spain-Brazil: 1-1]");
+        assertAll(
+                () -> assertThat(gameMexicoCanada.homeTeam()).isEqualTo(new Team("Mexico")),
+                () -> assertThat(gameMexicoCanada.awayTeam()).isEqualTo(new Team("Canada")),
+                () -> assertThat(gameMexicoCanada.homeScore().value()).isEqualTo(3),
+                () -> assertThat(gameMexicoCanada.awayScore().value()).isEqualTo(1),
+                () -> assertThat(gameMexicoCanada.getOverallScore().value()).isEqualTo(4)
+        );
+        assertAll(
+                () -> assertThat(gameSpainBrazil.homeTeam()).isEqualTo(new Team("Spain")),
+                () -> assertThat(gameSpainBrazil.awayTeam()).isEqualTo(new Team("Brazil")),
+                () -> assertThat(gameSpainBrazil.homeScore().value()).isEqualTo(1),
+                () -> assertThat(gameSpainBrazil.awayScore().value()).isEqualTo(1),
+                () -> assertThat(gameSpainBrazil.getOverallScore().value()).isEqualTo(2)
+        );
     }
 
     @Test
@@ -160,7 +173,14 @@ class LiveFootballFacadeTest {
         // then
         assertThat(liveFootballFacade.getGamesLiveScoreboard().contains(game)).isFalse();
         assertThat(liveFootballFacade.getGamesSummary().contains(game)).isTrue();
-        assertThat(liveFootballFacade.getSummaryGamesInfoAsString()).isEqualTo("[Mexico-Canada: 0-0]");
+        final Game pastGame = liveFootballFacade.getGamesSummary().get(0);
+        assertAll(
+                () -> assertThat(pastGame.homeTeam()).isEqualTo(new Team("Mexico")),
+                () -> assertThat(pastGame.awayTeam()).isEqualTo(new Team("Canada")),
+                () -> assertThat(pastGame.homeScore().value()).isEqualTo(0),
+                () -> assertThat(pastGame.awayScore().value()).isEqualTo(0),
+                () -> assertThat(pastGame.getOverallScore().value()).isEqualTo(0)
+        );
     }
 
 }

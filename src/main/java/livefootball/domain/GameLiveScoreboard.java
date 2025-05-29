@@ -42,11 +42,11 @@ class GameLiveScoreboard {
         validateGameBeforeStart(homeTeam, awayTeam, liveScoreboard);
     }
 
-    String getLiveScoreboardInfoAsString() {
-        return liveScoreboard.stream()
-                .map(g -> "%s-%s: %d-%d".formatted(
-                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore().value(), g.awayScore().value()))
-                .toList()
-                .toString();
-    }
+//    String getLiveScoreboardInfoAsString() {
+//        return liveScoreboard.stream()
+//                .map(g -> "%s-%s: %d-%d".formatted(
+//                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore().value(), g.awayScore().value()))
+//                .toList()
+//                .toString();
+//    }
 }

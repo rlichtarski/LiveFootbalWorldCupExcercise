@@ -45,7 +45,16 @@ class HappyPathTest {
                 .contains(gameMexicoCanada);
 
         //4. The user displayed a live scoreboard and there is one match Mexico-Canada with the score: 0-0.
-        assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 0-0]");
+        {
+            final Game game = liveFootballFacade.getGamesLiveScoreboard().get(0);
+            assertAll(
+                    () -> assertThat(game.homeTeam()).isEqualTo(new Team("Mexico")),
+                    () -> assertThat(game.awayTeam()).isEqualTo(new Team("Canada")),
+                    () -> assertThat(game.homeScore().value()).isZero(),
+                    () -> assertThat(game.awayScore().value()).isZero(),
+                    () -> assertThat(game.getOverallScore().value()).isZero()
+            );
+        }
 
         //5. The user starts a game with home team Spain and away team Brazil. The score is 0-0.
         final Game gameSpainBrazil = liveFootballFacade.startGame(new Team("Spain"), new Team("Brazil"));
@@ -64,15 +73,34 @@ class HappyPathTest {
         final Game updatedMexicoCanadaGame = liveFootballFacade.updateGameScore(gameMexicoCanada, new Score(3), new Score(1));
         assertAll(
                 () -> assertThat(updatedMexicoCanadaGame.homeScore().value()).isEqualTo(3),
-                () -> assertThat(updatedMexicoCanadaGame.awayScore().value()).isEqualTo(1),
-                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
-                        .contains(updatedMexicoCanadaGame)
+                () -> assertThat(updatedMexicoCanadaGame.awayScore().value()).isEqualTo(1)
         );
-        assertThat(liveFootballFacade.getGamesLiveScoreboard())
-                .doesNotContain(gameMexicoCanada);
+        assertAll(
+                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
+                        .contains(updatedMexicoCanadaGame),
+                () -> assertThat(liveFootballFacade.getGamesLiveScoreboard())
+                        .doesNotContain(gameMexicoCanada)
+        );
 
         //7. The user displayed a live scoreboard and there are two matches: Mexico-Canada (3-1) and Spain-Brazil (0-0).
-        assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Mexico-Canada: 3-1, Spain-Brazil: 0-0]");
+        {
+            final Game game1 = liveFootballFacade.getGamesLiveScoreboard().get(0);
+            final Game game2 = liveFootballFacade.getGamesLiveScoreboard().get(1);
+            assertAll(
+                    () -> assertThat(game1.homeTeam()).isEqualTo(new Team("Mexico")),
+                    () -> assertThat(game1.awayTeam()).isEqualTo(new Team("Canada")),
+                    () -> assertThat(game1.homeScore().value()).isEqualTo(3),
+                    () -> assertThat(game1.awayScore().value()).isEqualTo(1),
+                    () -> assertThat(game1.getOverallScore().value()).isEqualTo(4)
+            );
+            assertAll(
+                    () -> assertThat(game2.homeTeam()).isEqualTo(new Team("Spain")),
+                    () -> assertThat(game2.awayTeam()).isEqualTo(new Team("Brazil")),
+                    () -> assertThat(game2.homeScore().value()).isZero(),
+                    () -> assertThat(game2.awayScore().value()).isZero(),
+                    () -> assertThat(game2.getOverallScore().value()).isZero()
+            );
+        }
 
         //8. The user updated the score for the match Spain-Brazil: 1-1
         final Game updatedSpainBrazilGame = liveFootballFacade.updateGameScore(gameSpainBrazil, new Score(1), new Score(1));
@@ -81,7 +109,18 @@ class HappyPathTest {
         liveFootballFacade.finishGame(updatedMexicoCanadaGame);
 
         //10. The user displayed a live scoreboard and there is one match: Spain-Brazil (1-1).
-        assertThat(liveFootballFacade.getLiveScoreboardInfoAsString()).isEqualTo("[Spain-Brazil: 1-1]");
+        {
+            {
+                final Game game1 = liveFootballFacade.getGamesLiveScoreboard().get(0);
+                assertAll(
+                        () -> assertThat(game1.homeTeam()).isEqualTo(new Team("Spain")),
+                        () -> assertThat(game1.awayTeam()).isEqualTo(new Team("Brazil")),
+                        () -> assertThat(game1.homeScore().value()).isEqualTo(1),
+                        () -> assertThat(game1.awayScore().value()).isEqualTo(1),
+                        () -> assertThat(game1.getOverallScore().value()).isEqualTo(2)
+                );
+            }
+        }
 
         //11. The user starts a game with home team Argentina and away team Australia. The score is 0-0.
         final Game gameArgentinaAustralia = liveFootballFacade.startGame(new Team("Argentina"), new Team("Australia"));
@@ -110,7 +149,24 @@ class HappyPathTest {
         liveFootballFacade.finishGame(updatedArgentinaAustraliaGame);
 
         //14. The user displayed the summary and there are two past matches in the following order: Argentina-Australia: (2-2), Mexico-Canada (3-1).
-        assertThat(liveFootballFacade.getSummaryGamesInfoAsString()).isEqualTo("[Argentina-Australia: 2-2, Mexico-Canada: 3-1]");
+        {
+            final Game game1 = liveFootballFacade.getGamesSummary().get(0);
+            final Game game2 = liveFootballFacade.getGamesSummary().get(1);
+            assertAll(
+                    () -> assertThat(game1.homeTeam()).isEqualTo(new Team("Argentina")),
+                    () -> assertThat(game1.awayTeam()).isEqualTo(new Team("Australia")),
+                    () -> assertThat(game1.homeScore().value()).isEqualTo(2),
+                    () -> assertThat(game1.awayScore().value()).isEqualTo(2),
+                    () -> assertThat(game1.getOverallScore().value()).isEqualTo(4)
+            );
+            assertAll(
+                    () -> assertThat(game2.homeTeam()).isEqualTo(new Team("Mexico")),
+                    () -> assertThat(game2.awayTeam()).isEqualTo(new Team("Canada")),
+                    () -> assertThat(game2.homeScore().value()).isEqualTo(3),
+                    () -> assertThat(game2.awayScore().value()).isEqualTo(1),
+                    () -> assertThat(game2.getOverallScore().value()).isEqualTo(4)
+            );
+        }
     }
 
 }
