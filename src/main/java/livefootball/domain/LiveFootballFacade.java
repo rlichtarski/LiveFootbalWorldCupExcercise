@@ -3,10 +3,9 @@ package livefootball.domain;
 import java.util.List;
 
 public class LiveFootballFacade {
-    private final GameValidator gameValidator = new GameValidator();
     private final GameSummarizer gameSummarizer = new GameSummarizer();
     private final GameLiveScoreboard gameLiveScoreboard = new GameLiveScoreboard();
-    private final GameLauncher gameLauncher = new GameLauncher(gameValidator, gameLiveScoreboard);
+    private final GameLauncher gameLauncher = new GameLauncher(gameLiveScoreboard);
 
     Game startGame(final Team homeTeam, final Team awayTeam) {
         return gameLauncher.startGame(homeTeam, awayTeam);

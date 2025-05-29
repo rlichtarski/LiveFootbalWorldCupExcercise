@@ -26,6 +26,18 @@ class GameLiveScoreboard {
         return updatedScoreGame;
     }
 
+    void validateGameBeforeStart(final Team homeTeam, final Team awayTeam, List<Game> gamesLiveScoreboard) {
+        if (gamesLiveScoreboard.stream()
+                .anyMatch(game -> checkIfMatchIsAlreadyOngoing(homeTeam, awayTeam, game))
+        ) {
+            throw new IllegalArgumentException("This game is already ongoing");
+        }
+    }
+
+    private static boolean checkIfMatchIsAlreadyOngoing(final Team homeTeam, final Team awayTeam, final Game game) {
+        return game.homeTeam().equals(homeTeam) || game.awayTeam().equals(awayTeam);
+    }
+
     String getLiveScoreboardInfoAsString() {
         return liveScoreboard.stream()
                 .map(g -> "%s-%s: %d-%d".formatted(
