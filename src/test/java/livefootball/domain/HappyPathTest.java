@@ -11,18 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class HappyPathTest {
 
-    private LiveFootballService liveFootballService;
+    private final LiveFootballService liveFootballService = new LiveFootballService();
     final HomeTeam mexicoHomeTeam = new HomeTeam("Mexico");
     final AwayTeam canadaHomeTeam = new AwayTeam("Canada");
     final HomeTeam spainHomeTeam = new HomeTeam("Spain");
     final AwayTeam brazilAwayTeam = new AwayTeam("Brazil");
     final HomeTeam argentinaHomeTeam = new HomeTeam("Argentina");
     final AwayTeam australiaAwayTeam = new AwayTeam("Australia");
-
-    @BeforeEach
-    void setUp() {
-        liveFootballService = new LiveFootballService();
-    }
 
     @Test
     public void happyPathTest() {
@@ -33,13 +28,13 @@ class HappyPathTest {
         // when
         final List<Game> gamesLiveScoreboard = liveFootballService.getGamesLiveScoreboard();
         // then
-        assertThat(0).isEqualTo(gamesLiveScoreboard.size());
+        assertThat(gamesLiveScoreboard).isEmpty();
 
         //2. The user displayed a summary and there are no past matches.
         // when
         final List<Game> gamesSummary = liveFootballService.getGamesSummary();
         // then
-        assertThat(0).isEqualTo(gamesSummary.size());
+        assertThat(gamesSummary).isEmpty();
 
         //3. The user starts a game with home team Mexico and away team Canada. The score is 0-0
         // when
