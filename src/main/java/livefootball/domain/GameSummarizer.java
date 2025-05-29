@@ -1,6 +1,4 @@
-package livefootball.service;
-
-import livefootball.domain.Game;
+package livefootball.domain;
 
 import java.util.ArrayList;
 import java.util.Comparator;

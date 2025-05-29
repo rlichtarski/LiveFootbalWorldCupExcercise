@@ -1,9 +1,6 @@
-package livefootball.service;
+package livefootball.domain;
 
 
-import livefootball.domain.AwayTeam;
-import livefootball.domain.Game;
-import livefootball.domain.HomeTeam;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

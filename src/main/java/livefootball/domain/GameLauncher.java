@@ -1,8 +1,4 @@
-package livefootball.service;
-
-import livefootball.domain.AwayTeam;
-import livefootball.domain.Game;
-import livefootball.domain.HomeTeam;
+package livefootball.domain;
 
 class GameLauncher {
 
