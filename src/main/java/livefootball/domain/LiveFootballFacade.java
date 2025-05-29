@@ -8,7 +8,7 @@ public class LiveFootballFacade {
     private final GameLiveScoreboard gameLiveScoreboard = new GameLiveScoreboard();
     private final GameLauncher gameLauncher = new GameLauncher(gameValidator, gameLiveScoreboard);
 
-    Game startGame(final HomeTeam homeTeam, final AwayTeam awayTeam) {
+    Game startGame(final Team homeTeam, final Team awayTeam) {
         return gameLauncher.startGame(homeTeam, awayTeam);
     }
 

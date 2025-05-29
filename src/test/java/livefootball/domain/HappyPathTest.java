@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class HappyPathTest {
 
     private final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-    final HomeTeam mexicoHomeTeam = new HomeTeam("Mexico");
-    final AwayTeam canadaHomeTeam = new AwayTeam("Canada");
-    final HomeTeam spainHomeTeam = new HomeTeam("Spain");
-    final AwayTeam brazilAwayTeam = new AwayTeam("Brazil");
-    final HomeTeam argentinaHomeTeam = new HomeTeam("Argentina");
-    final AwayTeam australiaAwayTeam = new AwayTeam("Australia");
+    final Team mexicoHomeTeam = new Team("Mexico");
+    final Team canadaHomeTeam = new Team("Canada");
+    final Team spainHomeTeam = new Team("Spain");
+    final Team brazilAwayTeam = new Team("Brazil");
+    final Team argentinaHomeTeam = new Team("Argentina");
+    final Team australiaAwayTeam = new Team("Australia");
 
     @Test
     public void happyPathTest() {

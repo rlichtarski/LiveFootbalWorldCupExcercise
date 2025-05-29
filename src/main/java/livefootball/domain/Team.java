@@ -1,6 +1,6 @@
 package livefootball.domain;
 
-public record HomeTeam(
+public record Team(
         String value
 ) {
 }

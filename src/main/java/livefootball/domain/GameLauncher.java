@@ -10,7 +10,7 @@ class GameLauncher {
         this.gameLiveScoreboard = gameLiveScoreboard;
     }
 
-    Game startGame(final HomeTeam homeTeam, final AwayTeam awayTeam) {
+    Game startGame(final Team homeTeam, final Team awayTeam) {
         gameValidator.validateGameBeforeStart(homeTeam, awayTeam, gameLiveScoreboard.getLiveScoreboard());
         final Game game = new Game(homeTeam, awayTeam);
         gameLiveScoreboard.add(game);

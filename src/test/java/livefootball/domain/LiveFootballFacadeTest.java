@@ -37,8 +37,8 @@ class LiveFootballFacadeTest {
     public void should_return_live_scoreboard_with_game_and_zero_scores_when_user_starts_game() {
         // given
         final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-        final HomeTeam homeTeam = new HomeTeam("Mexico");
-        final AwayTeam awayTeam = new AwayTeam("Canada");
+        final Team homeTeam = new Team("Mexico");
+        final Team awayTeam = new Team("Canada");
 
         // when
         final Game game = liveFootballFacade.startGame(homeTeam, awayTeam);
@@ -60,8 +60,8 @@ class LiveFootballFacadeTest {
     public void should_throw_exception_when_starting_a_game_which_is_already_ongoing() {
         // given
         final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-        final HomeTeam homeTeam = new HomeTeam("Mexico");
-        final AwayTeam awayTeam = new AwayTeam("Canada");
+        final Team homeTeam = new Team("Mexico");
+        final Team awayTeam = new Team("Canada");
         final Game game = liveFootballFacade.startGame(homeTeam, awayTeam);
 
         // when
@@ -77,10 +77,10 @@ class LiveFootballFacadeTest {
     public void should_return_live_scoreboard_with_two_games_when_user_starts_two_games() {
         // given
         final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-        final HomeTeam firstGameHomeTeam = new HomeTeam("Mexico");
-        final AwayTeam firstGameAwayTeam = new AwayTeam("Canada");
-        final HomeTeam secondGameHomeTeam = new HomeTeam("Spain");
-        final AwayTeam secondGameAwayTeam = new AwayTeam("Brazil");
+        final Team firstGameHomeTeam = new Team("Mexico");
+        final Team firstGameAwayTeam = new Team("Canada");
+        final Team secondGameHomeTeam = new Team("Spain");
+        final Team secondGameAwayTeam = new Team("Brazil");
 
         // when
         final Game firstGame = liveFootballFacade.startGame(firstGameHomeTeam, firstGameAwayTeam);
@@ -106,8 +106,8 @@ class LiveFootballFacadeTest {
     public void should_return_game_with_updated_scores_when_user_updates_live_game_score() {
         // given
         final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-        final HomeTeam homeTeam = new HomeTeam("Mexico");
-        final AwayTeam awayTeam = new AwayTeam("Canada");
+        final Team homeTeam = new Team("Mexico");
+        final Team awayTeam = new Team("Canada");
         final Game game = liveFootballFacade.startGame(homeTeam, awayTeam);
 
         // when
@@ -130,10 +130,10 @@ class LiveFootballFacadeTest {
     public void should_return_live_games_info_with_updated_scores_when_user_updates_two_games() {
         // given
         final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-        final HomeTeam firstGameHomeTeam = new HomeTeam("Mexico");
-        final AwayTeam firstGameAwayTeam = new AwayTeam("Canada");
-        final HomeTeam secondGameHomeTeam = new HomeTeam("Spain");
-        final AwayTeam secondGameAwayTeam = new AwayTeam("Brazil");
+        final Team firstGameHomeTeam = new Team("Mexico");
+        final Team firstGameAwayTeam = new Team("Canada");
+        final Team secondGameHomeTeam = new Team("Spain");
+        final Team secondGameAwayTeam = new Team("Brazil");
         final Game firstGame = liveFootballFacade.startGame(firstGameHomeTeam, firstGameAwayTeam);
         final Game secondGame = liveFootballFacade.startGame(secondGameHomeTeam, secondGameAwayTeam);
 
@@ -149,8 +149,8 @@ class LiveFootballFacadeTest {
     public void should_remove_game_from_live_scoreboard_and_add_to_summary_when_user_finishes_game() {
         // given
         final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
-        final HomeTeam homeTeam = new HomeTeam("Mexico");
-        final AwayTeam awayTeam = new AwayTeam("Canada");
+        final Team homeTeam = new Team("Mexico");
+        final Team awayTeam = new Team("Canada");
         final Game game = liveFootballFacade.startGame(homeTeam, awayTeam);
 
         // when
