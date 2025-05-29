@@ -49,7 +49,7 @@ class LiveFootballFacadeTest {
                 () -> assertThat(game.awayTeam()).isEqualTo(awayTeam),
                 () -> assertThat(game.homeScore().value()).isZero(),
                 () -> assertThat(game.awayScore().value()).isZero(),
-                () -> assertThat(game.getOverallScore()).isZero()
+                () -> assertThat(game.getOverallScore().value()).isZero()
         );
         assertThat(liveFootballFacade.getGamesLiveScoreboard())
                 .hasSize(1)

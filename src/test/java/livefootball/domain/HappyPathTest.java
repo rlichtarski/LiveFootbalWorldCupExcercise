@@ -38,7 +38,7 @@ class HappyPathTest {
                 () -> assertThat(gameMexicoCanada.awayTeam()).isEqualTo(new Team("Canada")),
                 () -> assertThat(gameMexicoCanada.homeScore().value()).isZero(),
                 () -> assertThat(gameMexicoCanada.awayScore().value()).isZero(),
-                () -> assertThat(gameMexicoCanada.getOverallScore()).isZero()
+                () -> assertThat(gameMexicoCanada.getOverallScore().value()).isZero()
         );
         assertThat(liveFootballFacade.getGamesLiveScoreboard())
                 .hasSize(1)
@@ -54,7 +54,7 @@ class HappyPathTest {
                 () -> assertThat(gameSpainBrazil.awayTeam()).isEqualTo(new Team("Brazil")),
                 () -> assertThat(gameSpainBrazil.homeScore().value()).isZero(),
                 () -> assertThat(gameSpainBrazil.awayScore().value()).isZero(),
-                () -> assertThat(gameSpainBrazil.getOverallScore()).isZero()
+                () -> assertThat(gameSpainBrazil.getOverallScore().value()).isZero()
         );
         assertThat(liveFootballFacade.getGamesLiveScoreboard())
                 .hasSize(2)
@@ -90,7 +90,7 @@ class HappyPathTest {
                 () -> assertThat(gameArgentinaAustralia.awayTeam()).isEqualTo(new Team("Australia")),
                 () -> assertThat(gameArgentinaAustralia.homeScore().value()).isZero(),
                 () -> assertThat(gameArgentinaAustralia.awayScore().value()).isZero(),
-                () -> assertThat(gameArgentinaAustralia.getOverallScore()).isZero()
+                () -> assertThat(gameArgentinaAustralia.getOverallScore().value()).isZero()
         );
 
         //12. The user updated the score for the match Argentina-Australia: 2-2

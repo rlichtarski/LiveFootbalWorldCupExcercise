@@ -1,13 +1,9 @@
 package livefootball.domain;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 class GameSummarizer {
-
-    private static final Comparator<Game> TOTAL_DESC =
-            Comparator.comparingInt(Game::getOverallScore).reversed();
 
     private final List<Game> summary = new ArrayList<>();
 
@@ -15,8 +11,8 @@ class GameSummarizer {
         summary.add(0, game);
         summary.sort(
                 (g1, g2) -> Integer.compare(
-                        g2.getOverallScore(),
-                        g1.getOverallScore()));
+                        g2.getOverallScore().value(),
+                        g1.getOverallScore().value()));
     }
 
     List<Game> getSummary() {

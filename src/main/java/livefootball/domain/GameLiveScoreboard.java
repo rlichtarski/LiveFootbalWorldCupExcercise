@@ -21,7 +21,7 @@ class GameLiveScoreboard {
 
     Game updateGameScore(Game game, final Score homeScore, final Score awayScore) {
         final int gameIndex = liveScoreboard.indexOf(game);
-        final Game updatedScoreGame = game.copyWithGameScore(homeScore, awayScore);
+        final Game updatedScoreGame = game.updateGameScore(homeScore, awayScore);
         liveScoreboard.set(gameIndex, updatedScoreGame);
         return updatedScoreGame;
     }
