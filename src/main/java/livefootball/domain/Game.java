@@ -1,6 +1,5 @@
 package livefootball.domain;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public record Game(

@@ -1,14 +1,14 @@
 package livefootball.domain;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 class GameLiveScoreboard {
 
-    private final Map<UUID, Game> liveScoreboard = new ConcurrentHashMap<>();
+    private final Map<UUID, Game> liveScoreboard = new LinkedHashMap<>();
 
     List<Game> getLiveScoreboard() {
         return new ArrayList<>(liveScoreboard.values());
