@@ -11,14 +11,6 @@ public class LiveFootballFacade {
         return gameLauncher.startGame(homeTeam, awayTeam);
     }
 
-//    public String getLiveScoreboardInfoAsString() {
-//        return gameLiveScoreboard.getLiveScoreboardInfoAsString();
-//    }
-//
-//    public String getSummaryGamesInfoAsString() {
-//        return gameSummarizer.getSummaryGamesInfoAsString();
-//    }
-
     public Game updateGameScore(Game game, final Score homeScore, final Score awayScore) {
         return gameLiveScoreboard.updateGameScore(game, homeScore, awayScore);
     }

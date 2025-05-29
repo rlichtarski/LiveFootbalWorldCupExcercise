@@ -65,7 +65,6 @@ class LiveFootballFacadeTest {
         liveFootballFacade.startGame(homeTeam, awayTeam);
 
         // when
-
         final Throwable throwable = catchThrowable(() -> liveFootballFacade.startGame(homeTeam, awayTeam));
 
         // then
@@ -125,7 +124,23 @@ class LiveFootballFacadeTest {
         }
 
     }
+    @Test
+    public void should_throw_when_user_updates_live_game_score() {
+        // given
+        final LiveFootballFacade liveFootballFacade = new LiveFootballFacade();
+        final Team homeTeam = new Team("Mexico");
+        final Team awayTeam = new Team("Canada");
+        final Game game = liveFootballFacade.startGame(homeTeam, awayTeam);
+        liveFootballFacade.finishGame(game);
 
+        // when
+        final Throwable throwable = catchThrowable(() -> liveFootballFacade.updateGameScore(game, new Score(0), new Score(0)));
+
+        // then
+        assertThat(throwable).isInstanceOf(IllegalArgumentException.class);
+        assertThat(throwable.getMessage()).isEqualTo("Game does not exists");
+
+    }
 
     @Test
     public void should_return_live_games_info_with_updated_scores_when_user_updates_two_games() {
