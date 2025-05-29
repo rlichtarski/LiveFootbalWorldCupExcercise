@@ -1,6 +1,10 @@
 package livefootball.domain;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public record Game(
+        UUID id,
         Team homeTeam,
         Team awayTeam,
         Score homeScore,
@@ -8,11 +12,11 @@ public record Game(
 ) {
 
     public Game(Team homeTeam, Team awayTeam) {
-        this(homeTeam, awayTeam, new Score(0), new Score(0));
+        this(UUID.randomUUID(), homeTeam, awayTeam, new Score(0), new Score(0));
     }
 
     public Game updateGameScore(Score homeScore, Score awayScore) {
-        return new Game(homeTeam, awayTeam, homeScore, awayScore);
+        return new Game(id, homeTeam, awayTeam, homeScore, awayScore);
     }
 
     public Score getOverallScore() {

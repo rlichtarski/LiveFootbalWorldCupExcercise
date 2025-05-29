@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class LiveFootballFacadeTest {
@@ -87,8 +88,8 @@ class LiveFootballFacadeTest {
 
         // then
         assertThat(liveFootballFacade.getGamesLiveScoreboard())
-                        .hasSize(2)
-                        .containsExactlyInAnyOrder(firstGame, secondGame);
+                .hasSize(2)
+                .containsExactlyInAnyOrder(firstGame, secondGame);
 
         assertThat(firstGame)
                 .extracting(Game::homeTeam, Game::awayTeam)
@@ -124,6 +125,7 @@ class LiveFootballFacadeTest {
         }
 
     }
+
     @Test
     public void should_throw_when_user_updates_live_game_score() {
         // given

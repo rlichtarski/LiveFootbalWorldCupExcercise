@@ -2,35 +2,38 @@ package livefootball.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 class GameLiveScoreboard {
 
-    private final List<Game> liveScoreboard = new ArrayList<>();
+    private final Map<UUID, Game> liveScoreboard = new ConcurrentHashMap<>();
 
     List<Game> getLiveScoreboard() {
-        return liveScoreboard;
+        return new ArrayList<>(liveScoreboard.values());
     }
 
-    void add(Game game) {
-        liveScoreboard.add(game);
+    void addGameToLiveScoreboard(Game game) {
+        liveScoreboard.put(game.id(), game);
     }
 
-    void remove(Game game) {
-        liveScoreboard.remove(game);
+    void removeGameFromLiveScoreboard(Game game) {
+        liveScoreboard.remove(game.id());
     }
 
     Game updateGameScore(Game game, final Score homeScore, final Score awayScore) {
-        if (!liveScoreboard.contains(game)) {
+        if (!liveScoreboard.containsKey(game.id())) {
             throw new IllegalArgumentException("Game does not exists");
         }
-        final int gameIndex = liveScoreboard.indexOf(game);
-        final Game updatedScoreGame = game.updateGameScore(homeScore, awayScore);
-        liveScoreboard.set(gameIndex, updatedScoreGame);
+        final Game foundGameToBeUpdated = liveScoreboard.get(game.id());
+        final Game updatedScoreGame = foundGameToBeUpdated.updateGameScore(homeScore, awayScore);
+        liveScoreboard.put(game.id(), updatedScoreGame);
         return updatedScoreGame;
     }
 
-    void validateGameBeforeStart(final Team homeTeam, final Team awayTeam, List<Game> gamesLiveScoreboard) {
-        if (gamesLiveScoreboard.stream()
+    void validateGameBeforeStart(final Team homeTeam, final Team awayTeam, Map<UUID, Game> gamesLiveScoreboard) {
+        if (gamesLiveScoreboard.values().stream()
                 .anyMatch(game -> checkIfMatchIsAlreadyOngoing(homeTeam, awayTeam, game))
         ) {
             throw new IllegalArgumentException("This game is already ongoing");
@@ -45,11 +48,4 @@ class GameLiveScoreboard {
         validateGameBeforeStart(homeTeam, awayTeam, liveScoreboard);
     }
 
-//    String getLiveScoreboardInfoAsString() {
-//        return liveScoreboard.stream()
-//                .map(g -> "%s-%s: %d-%d".formatted(
-//                        g.homeTeam().value(), g.awayTeam().value(), g.homeScore().value(), g.awayScore().value()))
-//                .toList()
-//                .toString();
-//    }
 }
